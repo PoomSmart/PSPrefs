@@ -1,12 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <Preferences/PSSpecifier.h>
 #import <Preferences/PSViewController.h>
-
-#ifdef TARGET_OS_SIMULATOR
-#define realPrefPath(domain) [NSString stringWithFormat:@"%@/Library/Preferences/%@.plist", @(getenv("SIMULATOR_SHARED_RESOURCES_DIRECTORY")), domain]
-#else
-#define realPrefPath(domain) [NSString stringWithFormat:@"/User/Library/Preferences/%@.plist", domain]
-#endif
+#import "PSHeader/Misc.h"
 
 #define toPrefPath() realPrefPath(tweakIdentifier)
 #define toPostNotification() [NSString stringWithFormat:@"%@/ReloadPrefs", tweakIdentifier]
