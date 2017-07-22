@@ -46,8 +46,8 @@
     DeclareGetter() \
     DeclareSaver()
 
-#define GetVal(TYPE, val, key, defaultVal) val = PSSettings[key] ? [PSSettings[key] TYPE ## Value] : defaultVal;
-#define GetGeneric(val, key, defaultVal) val = PSSettings[key] ? PSSettings[key] : (defaultVal);
+#define GetVal(TYPE, val, key, defaultVal) val = [PSSettings objectForKey:key] ? [[PSSettings objectForKey:key] TYPE ## Value] : defaultVal;
+#define GetGeneric(val, key, defaultVal) val = [PSSettings objectForKey:key] ? [PSSettings objectForKey:key] : (defaultVal);
 #define GetObject(val, key, defaultVal) GetGeneric(val, key, (defaultVal))
 #define GetObject2(val, defaultVal) GetObject(val, val ## Key, (defaultVal))
 #define GetBool(val, key, defaultVal) GetVal(bool, val, key, defaultVal)
@@ -72,17 +72,18 @@
 #define _HavePrefs(ACTION) \
     - (id)readPreferenceValue: (PSSpecifier *)specifier { \
         NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:toPrefPath()]; \
-        if (!settings[specifier.properties[@"key"]]) \
-            return specifier.properties[@"default"]; \
-        return settings[specifier.properties[@"key"]]; \
+        id key = [settings objectForKey:[specifier.properties objectForKey:@"key"]]; \
+        if (!key) \
+            return [specifier.properties objectForKey:@"default"]; \
+        return key; \
     } \
     - (void)setPreferenceValue:(id)value specifier:(PSSpecifier *)specifier { \
         NSMutableDictionary *dictionary = [NSMutableDictionary dictionary]; \
         NSString *prefPath = toPrefPath(); \
         [dictionary addEntriesFromDictionary:[NSDictionary dictionaryWithContentsOfFile:prefPath]]; \
-        [dictionary setObject:value forKey:specifier.properties[@"key"]]; \
+        [dictionary setObject:value forKey:[specifier.properties objectForKey:@"key"]]; \
         [dictionary writeToFile:prefPath atomically:YES]; \
-        CFStringRef post = (CFStringRef)specifier.properties[@"PostNotification"]; \
+        CFStringRef post = (CFStringRef)[specifier.properties objectForKey:@"PostNotification"]; \
         if (post) \
             CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), post, NULL, NULL, YES); \
         ACTION \
