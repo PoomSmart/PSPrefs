@@ -70,7 +70,7 @@
 #define HaveObserver() CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)callback, (CFStringRef)toPostNotification(), NULL, CFNotificationSuspensionBehaviorCoalesce)
 
 #define _HavePrefs(ACTION) \
-    - (id)readPreferenceValue: (PSSpecifier *)specifier { \
+    - (id)readPreferenceValue:(PSSpecifier *)specifier { \
         NSDictionary *settings = [NSDictionary dictionaryWithContentsOfFile:toPrefPath()]; \
         id key = [settings objectForKey:[specifier.properties objectForKey:@"key"]]; \
         if (!key) \
