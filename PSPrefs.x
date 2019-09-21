@@ -1,4 +1,7 @@
-#import "../PSHeader/Misc.h"
+#ifndef PS_PREFS
+#define PS_PREFS
+
+#import "PSHeader/Misc.h"
 
 #define toPrefPath() realPrefPath(tweakIdentifier)
 #define toPostNotification() [NSString stringWithFormat:@"%@/ReloadPrefs", tweakIdentifier]
@@ -38,3 +41,5 @@
     }
 
 #define HaveBanner2(tweakName, tweakColor, description, desColor) HaveBanner(tweakName, tweakColor, defaultTweakFontSize, description, desColor, defaultDesFontSize)
+
+#endif
