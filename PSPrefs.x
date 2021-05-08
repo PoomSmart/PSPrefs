@@ -1,17 +1,21 @@
 #ifndef PS_PREFS
 #define PS_PREFS
 
+#import "../PSHeader/Misc.h"
+
 #define toPrefPath() realPrefPath(tweakIdentifier)
 #define toPostNotification() [NSString stringWithFormat:@"%@/ReloadPrefs", tweakIdentifier]
 
 #define DoPostNotification() CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)toPostNotification(), NULL, NULL, YES)
 
-#define GetVal(TYPE, val, key, defaultVal) val = [PSSettings objectForKey:key] ? [[PSSettings objectForKey:key] TYPE ## Value] : defaultVal;
+#define GetObject(key) [PSSettings objectForKey:key]
+#define GetVal(TYPE, val, key, defaultVal) val = GetObject(key) ? [GetObject(key) TYPE ## Value] : defaultVal
 #define GetBool(val, key, defaultVal) GetVal(bool, val, key, defaultVal)
 #define GetInt(val, key, defaultVal) GetVal(int, val, key, defaultVal)
 #define GetInt2(val, defaultVal) GetInt(val, val ## Key, defaultVal)
 
-#define GetPrefs() NSDictionary *PSSettings = [NSDictionary dictionaryWithContentsOfFile:toPrefPath()];
+#define Prefs() [NSDictionary dictionaryWithContentsOfFile:toPrefPath()]
+#define GetPrefs() NSDictionary *PSSettings = Prefs()
 
 #define HaveCallback() static void callback()
 #define HaveObserver() CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)callback, (CFStringRef)toPostNotification(), NULL, CFNotificationSuspensionBehaviorCoalesce)
