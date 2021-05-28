@@ -8,7 +8,7 @@
 
 #define DoPostNotification() CFNotificationCenterPostNotification(CFNotificationCenterGetDarwinNotifyCenter(), (CFStringRef)toPostNotification(), NULL, NULL, YES)
 
-#define GetObject(key) [PSSettings objectForKey:key]
+#define GetObject(key) [PSSettings objectForKey:@"" # key]
 #define GetVal(TYPE, val, key, defaultVal) val = GetObject(key) ? [GetObject(key) TYPE ## Value] : defaultVal
 #define GetBool(val, key, defaultVal) GetVal(bool, val, key, defaultVal)
 #define GetInt(val, key, defaultVal) GetVal(int, val, key, defaultVal)
