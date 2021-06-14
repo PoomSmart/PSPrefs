@@ -11,6 +11,7 @@
 #define GetObject(key) [PSSettings objectForKey:@"" # key]
 #define GetVal(TYPE, val, key, defaultVal) val = GetObject(key) ? [GetObject(key) TYPE ## Value] : defaultVal
 #define GetBool(val, key, defaultVal) GetVal(bool, val, key, defaultVal)
+#define GetBool2(val, defaultVal) GetBool(val, val ## Key, defaultVal)
 #define GetInt(val, key, defaultVal) GetVal(int, val, key, defaultVal)
 #define GetInt2(val, defaultVal) GetInt(val, val ## Key, defaultVal)
 
