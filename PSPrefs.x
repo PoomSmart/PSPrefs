@@ -1,7 +1,7 @@
 #ifndef PS_PREFS
 #define PS_PREFS
 
-#import "../PSHeader/Misc.h"
+#import <PSHeader/Misc.h>
 
 #define toPrefPath() realPrefPath(tweakIdentifier)
 #define toPostNotification() [NSString stringWithFormat:@"%@/ReloadPrefs", tweakIdentifier]
